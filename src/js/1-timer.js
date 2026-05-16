@@ -17,6 +17,9 @@ const timerDisplay = {
 let userSelectedDate = null;
 let timerInterval = null;
 
+// Ensure start is disabled until a valid future date is selected
+startButton.disabled = true;
+
 // Helper functions
 function convertMs(ms) {
   const second = 1000;
@@ -46,11 +49,13 @@ function updateDisplay(milliseconds) {
 }
 
 function startTimer() {
+  if (!userSelectedDate) {
+    return;
+  }
+
   // Disable input and button during countdown
   datetimePickerInput.disabled = true;
   startButton.disabled = true;
-
-  const startTime = Date.now();
 
   timerInterval = setInterval(() => {
     const currentTime = Date.now();
